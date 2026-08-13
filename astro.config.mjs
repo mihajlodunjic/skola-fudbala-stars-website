@@ -7,5 +7,8 @@ export default defineConfig({
   site,
   output: "static",
   trailingSlash: "always",
+  build: {
+    assets: "assets",
+  },
   integrations: [sitemap()],
 });
