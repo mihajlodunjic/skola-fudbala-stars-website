@@ -332,6 +332,10 @@ h3 {
   --logo-shell: 6.25rem;
 }
 
+.site-footer .logo-mark--footer {
+  background: var(--club-navy);
+}
+
 @media (min-width: 768px) {
   .logo-mark--header {
     --logo-size: 3.875rem;
@@ -1575,6 +1579,7 @@ html.menu-open .site-header {
 .location-band::after {
   background: var(--club-blue);
   content: "";
+  display: none;
   height: 0.1875rem;
   left: 50%;
   opacity: 0.5;
@@ -1592,6 +1597,10 @@ html.menu-open .site-header {
 }
 
 @media (min-width: 900px) {
+  .location-band::after {
+    display: block;
+  }
+
   .location-band__content {
     grid-template-columns: minmax(0, 7fr) minmax(18rem, 4fr);
   }
