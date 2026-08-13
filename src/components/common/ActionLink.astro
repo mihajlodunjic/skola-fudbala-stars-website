@@ -1,4 +1,6 @@
 ---
+import { homeOnlyHref } from "../../utils/home-only-links";
+
 interface Props {
   href: string;
   label: string;
@@ -9,11 +11,12 @@ interface Props {
 const { href, label, variant = "blue", external = false } = Astro.props;
 const isText = variant === "text";
 const className = isText ? "text-link" : `button button--${variant}`;
+const safeHref = external ? href : homeOnlyHref(href);
 ---
 
 <a
   class={className}
-  href={href}
+  href={safeHref}
   target={external ? "_blank" : undefined}
   rel={external ? "noopener noreferrer" : undefined}
 >

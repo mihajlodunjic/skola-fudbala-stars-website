@@ -1,6 +1,7 @@
 ---
 import { business, contactLinks } from "../../data/business";
 import { navigation, navCopy } from "../../data/navigation";
+import { homeOnlyHref } from "../../utils/home-only-links";
 import LogoMark from "../common/LogoMark.astro";
 import ActionLink from "../common/ActionLink.astro";
 
@@ -18,7 +19,7 @@ const isActive = (href: string) => currentPath === href || (href !== "/" && curr
     <nav class="desktop-nav" aria-label="Glavna navigacija">
       {
         navigation.map((item) => (
-          <a href={item.href} aria-current={isActive(item.href) ? "page" : undefined}>
+          <a href={homeOnlyHref(item.href)} aria-current={isActive(item.href) ? "page" : undefined}>
             {item.label}
           </a>
         ))
@@ -54,7 +55,7 @@ const isActive = (href: string) => currentPath === href || (href !== "/" && curr
       <nav class="mobile-menu__nav" aria-label="Mobilna navigacija">
         {
           navigation.map((item) => (
-            <a href={item.href} aria-current={isActive(item.href) ? "page" : undefined} data-menu-link>
+            <a href={homeOnlyHref(item.href)} aria-current={isActive(item.href) ? "page" : undefined} data-menu-link>
               {item.label}
             </a>
           ))

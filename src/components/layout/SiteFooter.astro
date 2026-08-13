@@ -3,6 +3,7 @@ import { business, contactLinks } from "../../data/business";
 import { navigation } from "../../data/navigation";
 import { siteCopy } from "../../data/site-copy";
 import { socialLinks } from "../../data/social";
+import { homeOnlyHref } from "../../utils/home-only-links";
 import LogoMark from "../common/LogoMark.astro";
 ---
 
@@ -15,7 +16,7 @@ import LogoMark from "../common/LogoMark.astro";
         <p>{siteCopy.footer.text}</p>
       </div>
       <nav class="site-footer__nav" aria-label="Navigacija u podnožju">
-        {navigation.map((item) => <a href={item.href}>{item.label}</a>)}
+        {navigation.map((item) => <a href={homeOnlyHref(item.href)}>{item.label}</a>)}
       </nav>
       <div class="site-footer__contact">
         <a href={contactLinks.phone}>{business.phone.display}</a>
