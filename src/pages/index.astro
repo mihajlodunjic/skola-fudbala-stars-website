@@ -1,0 +1,156 @@
+---
+import ActionLink from "../components/common/ActionLink.astro";
+import ContactBand from "../components/common/ContactBand.astro";
+import LogoMark from "../components/common/LogoMark.astro";
+import SectionLabel from "../components/common/SectionLabel.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { business, contactLinks } from "../data/business";
+import { activityRows, developmentRows } from "../data/principles";
+import { pageSeo } from "../data/seo";
+import { siteCopy } from "../data/site-copy";
+---
+
+<BaseLayout seo={pageSeo.home} includeOrganizationSchema>
+  <section class="home-hero" aria-labelledby="home-title">
+    <div class="container grid home-hero__grid">
+      <div class="home-hero__copy">
+        <SectionLabel text={siteCopy.home.hero.metadata} />
+        <h1 id="home-title">
+          <span>Fudbal, druženje i</span>
+          <span>dobre navike</span>
+          <span>od prvog treninga</span>
+        </h1>
+        <p class="lead">{siteCopy.home.hero.intro}</p>
+        <div class="action-row">
+          <ActionLink href={contactLinks.phone} label={siteCopy.home.hero.primaryCta} variant="yellow" />
+          <ActionLink href="/rad-sa-decom/" label={siteCopy.home.hero.secondaryCta} variant="outline" />
+        </div>
+        <p class="hero-note">{business.phone.display}</p>
+      </div>
+      <div class="home-hero__visual">
+        <div class="hero-rings" aria-hidden="true">
+          <LogoMark variant="hero" loading="eager" />
+        </div>
+      </div>
+      <p class="home-hero__vertical" aria-hidden="true">{siteCopy.home.hero.metadata}</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="development-title">
+    <div class="container">
+      <div class="split-heading">
+        <SectionLabel text={siteCopy.home.development.metadata} />
+        <div>
+          <h2 id="development-title">{siteCopy.home.development.h2}</h2>
+          <p class="lead">{siteCopy.home.development.intro}</p>
+        </div>
+      </div>
+      <div class="numbered-rows">
+        {
+          developmentRows.map((row) => (
+            <article class="numbered-row">
+              <span class="numbered-row__number">{row.number}</span>
+              <h3>{row.title}</h3>
+              <p>{row.text}</p>
+            </article>
+          ))
+        }
+      </div>
+      <div class="action-row" style="margin-top: var(--space-8);">
+        <ActionLink href="/rad-sa-decom/" label={siteCopy.home.development.cta} variant="blue" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--white" aria-labelledby="editorial-title">
+    <div class="container grid editorial-grid">
+      <div class="editorial-copy">
+        <SectionLabel text={siteCopy.home.editorial.metadata} />
+        <h2 id="editorial-title">{siteCopy.home.editorial.h2}</h2>
+        <p class="lead">{siteCopy.home.editorial.text}</p>
+        <ActionLink href="/rad-sa-decom/" label={siteCopy.home.editorial.link} variant="text" />
+      </div>
+      <div class="training-board" aria-hidden="true">
+        <div class="training-board__note"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--white" aria-labelledby="groups-title">
+    <div class="container">
+      <div class="club-note">
+        <div>
+          <SectionLabel text={siteCopy.home.groups.metadata} />
+          <div class="star-cluster" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+        <div>
+          <h2 id="groups-title">{siteCopy.home.groups.h2}</h2>
+          <p class="lead">{siteCopy.home.groups.text}</p>
+          <div class="action-row" style="margin-top: var(--space-6);">
+            <ActionLink href="/kontakt/" label={siteCopy.home.groups.cta} variant="blue" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="location-band section" aria-labelledby="locations-title">
+    <div class="container location-band__content">
+      <div>
+        <SectionLabel text={siteCopy.home.locations.metadata} />
+        <h2 id="locations-title">{siteCopy.home.locations.h2}</h2>
+        <p class="lead">{siteCopy.home.locations.text}</p>
+      </div>
+      <div class="contact-band__actions">
+        <ActionLink href="/kontakt/" label={siteCopy.home.locations.primaryCta} variant="blue" />
+        <ActionLink href="/lokacije/" label={siteCopy.home.locations.secondaryLink} variant="text" />
+        <span class="hero-note">{business.phone.display}</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="continuity-title">
+    <div class="container grid year-section">
+      <div style="grid-column: 1 / -1;">
+        <SectionLabel text={siteCopy.home.continuity.metadata} />
+      </div>
+      <div class="year-number" aria-hidden="true">{siteCopy.home.continuity.visual}</div>
+      <div class="text-measure">
+        <h2 id="continuity-title">{siteCopy.home.continuity.h2}</h2>
+        <p class="lead">{siteCopy.home.continuity.text}</p>
+        <div class="action-row" style="margin-top: var(--space-6);">
+          <ActionLink href="/o-skoli/" label={siteCopy.home.continuity.cta} variant="blue" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--white" aria-labelledby="activities-title">
+    <div class="container">
+      <div class="split-heading">
+        <SectionLabel text={siteCopy.home.activities.metadata} />
+        <div>
+          <h2 id="activities-title">{siteCopy.home.activities.h2}</h2>
+          <p class="lead">{siteCopy.home.activities.intro}</p>
+        </div>
+      </div>
+      <div class="activity-list">
+        {
+          activityRows.map((item, index) => (
+            <div class="activity-item">
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <strong>{item}</strong>
+            </div>
+          ))
+        }
+      </div>
+      <p style="margin-top: var(--space-6);">{siteCopy.home.activities.note}</p>
+    </div>
+  </section>
+
+  <ContactBand />
+</BaseLayout>

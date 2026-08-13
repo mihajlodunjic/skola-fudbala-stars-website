@@ -1,0 +1,123 @@
+---
+import { business, contactLinks } from "../../data/business";
+import { navigation, navCopy } from "../../data/navigation";
+import LogoMark from "../common/LogoMark.astro";
+import ActionLink from "../common/ActionLink.astro";
+
+interface Props {
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+const isActive = (href: string) => currentPath === href || (href !== "/" && currentPath.startsWith(href));
+---
+
+<header class="site-header" data-site-header>
+  <div class="container site-header__inner">
+    <LogoMark variant="header" href="/" loading="eager" />
+    <nav class="desktop-nav" aria-label="Glavna navigacija">
+      {
+        navigation.map((item) => (
+          <a href={item.href} aria-current={isActive(item.href) ? "page" : undefined}>
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+    <div class="header-phone">
+      <ActionLink href={contactLinks.phone} label={navCopy.desktopCta} variant="yellow" />
+    </div>
+    <button
+      class="menu-toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+      aria-label={navCopy.mobileOpen}
+      data-menu-toggle
+      data-open-label={navCopy.mobileOpen}
+      data-close-label={navCopy.mobileClose}
+    >
+      <span class="menu-toggle__line"></span>
+      <span class="menu-toggle__line"></span>
+      <span class="menu-toggle__line"></span>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobile-menu" data-mobile-menu hidden>
+    <div class="container mobile-menu__inner">
+      <div class="mobile-menu__brand">
+        <LogoMark variant="menu" href="/" loading="eager" />
+        <div>
+          <strong>{business.displayName}</strong>
+          <span>{business.city} · Od {business.foundedYear}.</span>
+        </div>
+      </div>
+      <nav class="mobile-menu__nav" aria-label="Mobilna navigacija">
+        {
+          navigation.map((item) => (
+            <a href={item.href} aria-current={isActive(item.href) ? "page" : undefined} data-menu-link>
+              {item.label}
+            </a>
+          ))
+        }
+      </nav>
+      <div class="mobile-menu__actions">
+        <ActionLink href={contactLinks.phone} label={`Pozovi ${business.phone.display}`} variant="yellow" />
+        <ActionLink href={contactLinks.email} label="Pošalji e-mail" variant="light" />
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  const toggle = document.querySelector("[data-menu-toggle]");
+  const menu = document.querySelector("[data-mobile-menu]");
+  const desktopQuery = window.matchMedia("(min-width: 900px)");
+
+  if (toggle instanceof HTMLButtonElement && menu instanceof HTMLElement) {
+    const openLabel = toggle.dataset.openLabel || "Otvori meni";
+    const closeLabel = toggle.dataset.closeLabel || "Zatvori meni";
+
+    const setMenuOpen = (open: boolean, returnFocus = false) => {
+      const pageMain = document.querySelector("main");
+      const pageFooter = document.querySelector("footer");
+      toggle.setAttribute("aria-expanded", String(open));
+      toggle.setAttribute("aria-label", open ? closeLabel : openLabel);
+      menu.hidden = !open;
+      document.documentElement.classList.toggle("menu-open", open);
+      [pageMain, pageFooter].forEach((region) => {
+        if (region instanceof HTMLElement) {
+          region.toggleAttribute("inert", open);
+          if (open) {
+            region.setAttribute("aria-hidden", "true");
+          } else {
+            region.removeAttribute("aria-hidden");
+          }
+        }
+      });
+      if (!open && returnFocus) {
+        toggle.focus();
+      }
+    };
+
+    toggle.addEventListener("click", () => {
+      const isOpen = toggle.getAttribute("aria-expanded") === "true";
+      setMenuOpen(!isOpen, false);
+    });
+
+    menu.querySelectorAll("[data-menu-link]").forEach((link) => {
+      link.addEventListener("click", () => setMenuOpen(false, false));
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && toggle.getAttribute("aria-expanded") === "true") {
+        setMenuOpen(false, true);
+      }
+    });
+
+    desktopQuery.addEventListener("change", (event) => {
+      if (event.matches) {
+        setMenuOpen(false, false);
+      }
+    });
+  }
+</script>

@@ -1,0 +1,78 @@
+---
+import "@fontsource/fira-sans-condensed/latin-600.css";
+import "@fontsource/fira-sans-condensed/latin-ext-600.css";
+import "@fontsource/fira-sans-condensed/latin-700.css";
+import "@fontsource/fira-sans-condensed/latin-ext-700.css";
+import "@fontsource/fira-sans-condensed/latin-800.css";
+import "@fontsource/fira-sans-condensed/latin-ext-800.css";
+import "@fontsource/noto-sans/latin-400.css";
+import "@fontsource/noto-sans/latin-ext-400.css";
+import "@fontsource/noto-sans/latin-500.css";
+import "@fontsource/noto-sans/latin-ext-500.css";
+import "@fontsource/noto-sans/latin-600.css";
+import "@fontsource/noto-sans/latin-ext-600.css";
+import "../styles/global.css";
+
+import { business } from "../data/business";
+import { canonicalUrl, ogImageUrl, type PageSeo } from "../data/seo";
+import { navCopy } from "../data/navigation";
+import BreadcrumbSchema from "../components/structured-data/BreadcrumbSchema.astro";
+import SiteFooter from "../components/layout/SiteFooter.astro";
+import SiteHeader from "../components/layout/SiteHeader.astro";
+import SportsOrganizationSchema from "../components/structured-data/SportsOrganizationSchema.astro";
+
+interface SchemaBreadcrumb {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  seo: PageSeo;
+  includeOrganizationSchema?: boolean;
+  breadcrumbs?: SchemaBreadcrumb[];
+}
+
+const { seo, includeOrganizationSchema = false, breadcrumbs = [] } = Astro.props;
+const canonical = canonicalUrl(seo.path);
+const ogTitle = seo.ogTitle || seo.title;
+const ogDescription = seo.ogDescription || seo.description;
+const ogImage = ogImageUrl();
+---
+
+<!doctype html>
+<html lang="sr-Latn-RS">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{seo.title}</title>
+    <meta name="description" content={seo.description} />
+    <meta name="robots" content={seo.noindex ? "noindex, follow" : "index, follow"} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon/favicon-192x192.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={business.displayName} />
+    <meta property="og:locale" content="sr_RS" />
+    <meta property="og:title" content={ogTitle} />
+    <meta property="og:description" content={ogDescription} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={ogTitle} />
+    <meta name="twitter:description" content={ogDescription} />
+    <meta name="twitter:image" content={ogImage} />
+  </head>
+  <body id="top">
+    <a class="skip-link" href="#main-content">{navCopy.skipLink}</a>
+    <SiteHeader currentPath={seo.path} />
+    <main id="main-content">
+      <slot />
+    </main>
+    <SiteFooter />
+    {includeOrganizationSchema && <SportsOrganizationSchema />}
+    {breadcrumbs.length > 0 && <BreadcrumbSchema items={breadcrumbs} />}
+  </body>
+</html>

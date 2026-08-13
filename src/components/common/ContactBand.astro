@@ -1,0 +1,25 @@
+---
+import { business, contactLinks } from "../../data/business";
+import { siteCopy } from "../../data/site-copy";
+import ActionLink from "./ActionLink.astro";
+import LogoMark from "./LogoMark.astro";
+import SectionLabel from "./SectionLabel.astro";
+---
+
+<section class="contact-band section" aria-labelledby="contact-band-title">
+  <div class="container grid contact-band__grid">
+    <div class="contact-band__copy">
+      <SectionLabel text={siteCopy.home.finalCta.metadata} />
+      <h2 id="contact-band-title">{siteCopy.home.finalCta.h2}</h2>
+      <p class="lead">{siteCopy.home.finalCta.text}</p>
+    </div>
+    <div class="contact-band__actions">
+      <ActionLink href={contactLinks.phone} label={siteCopy.home.finalCta.primaryCta} variant="yellow" />
+      <ActionLink href={contactLinks.email} label={siteCopy.home.finalCta.secondaryCta} variant="light" />
+      <span class="hero-note">{business.phone.display}</span>
+    </div>
+    <div class="contact-band__logo" aria-hidden="true">
+      <LogoMark variant="footer" loading="lazy" />
+    </div>
+  </div>
+</section>

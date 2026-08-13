@@ -1,0 +1,37 @@
+---
+import { business, contactLinks } from "../../data/business";
+import { navigation } from "../../data/navigation";
+import { siteCopy } from "../../data/site-copy";
+import { socialLinks } from "../../data/social";
+import LogoMark from "../common/LogoMark.astro";
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__grid">
+      <div class="site-footer__brand">
+        <LogoMark variant="footer" href="/" loading="lazy" />
+        <strong>{siteCopy.footer.name}</strong>
+        <p>{siteCopy.footer.text}</p>
+      </div>
+      <nav class="site-footer__nav" aria-label="Navigacija u podnožju">
+        {navigation.map((item) => <a href={item.href}>{item.label}</a>)}
+      </nav>
+      <div class="site-footer__contact">
+        <a href={contactLinks.phone}>{business.phone.display}</a>
+        <a href={contactLinks.email}>{business.email.display}</a>
+      </div>
+      <div class="site-footer__social">
+        {socialLinks.map((item) => <a href={item.href} target="_blank" rel="noopener noreferrer">{item.name}</a>)}
+      </div>
+    </div>
+    <div class="site-footer__bottom">
+      <p>
+        {siteCopy.footer.infoLine}
+        <br />
+        © {new Date().getFullYear()} {business.displayName}. Sva prava zadržana.
+      </p>
+      <a href="#top">{siteCopy.footer.backToTop}</a>
+    </div>
+  </div>
+</footer>

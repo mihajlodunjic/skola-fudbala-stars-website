@@ -1,0 +1,55 @@
+:root {
+  --club-navy: #132f50;
+  --club-blue: #1d4f78;
+  --logo-field: #1d4f78;
+  --field-blue: #276d9d;
+  --paper: #f5f2e9;
+  --white: #ffffff;
+  --ink: #142538;
+  --muted-ink: #637080;
+  --line: #aab8c4;
+  --soft-blue: #dce8ef;
+  --ball-yellow: #f2b632;
+  --yellow-hover: #d99a16;
+  --error: #a53a32;
+  --success: #2f6b4f;
+
+  --font-display: "Fira Sans Condensed", "Arial Narrow", "Roboto Condensed", Arial, sans-serif;
+  --font-body: "Noto Sans", Arial, Helvetica, sans-serif;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-26: 6.5rem;
+  --space-36: 9rem;
+
+  --container-max: 82.5rem;
+  --outer-margin: 1.125rem;
+  --gutter: 1rem;
+  --header-height: 4.375rem;
+  --radius: 0.25rem;
+  --motion-fast: 160ms cubic-bezier(0.22, 1, 0.36, 1);
+  --motion-menu: 240ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (min-width: 768px) {
+  :root {
+    --outer-margin: 1.5rem;
+    --gutter: 1.25rem;
+    --header-height: 5.25rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  :root {
+    --outer-margin: 2rem;
+    --gutter: 1.5rem;
+    --header-height: 5.625rem;
+  }
+}

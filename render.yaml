@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: skola-fudbala-stars
+    runtime: static
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: SITE_URL
+        sync: false

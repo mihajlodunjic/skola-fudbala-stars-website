@@ -1,0 +1,22 @@
+---
+interface Props {
+  href: string;
+  label: string;
+  variant?: "yellow" | "light" | "blue" | "outline" | "text";
+  external?: boolean;
+}
+
+const { href, label, variant = "blue", external = false } = Astro.props;
+const isText = variant === "text";
+const className = isText ? "text-link" : `button button--${variant}`;
+---
+
+<a
+  class={className}
+  href={href}
+  target={external ? "_blank" : undefined}
+  rel={external ? "noopener noreferrer" : undefined}
+>
+  {label}
+  {isText && <span class="text-link__arrow" aria-hidden="true">→</span>}
+</a>

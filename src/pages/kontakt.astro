@@ -1,0 +1,71 @@
+---
+import ActionLink from "../components/common/ActionLink.astro";
+import PageHero from "../components/common/PageHero.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { business, contactLinks } from "../data/business";
+import { pageSeo } from "../data/seo";
+import { siteCopy } from "../data/site-copy";
+import { socialLinks } from "../data/social";
+
+const breadcrumbs = [
+  { label: "Početna", href: "/" },
+  { label: "Kontakt", href: "/kontakt/" },
+];
+
+const visualBreadcrumbs = [{ label: "Početna", href: "/" }, { label: "Kontakt" }];
+---
+
+<BaseLayout seo={pageSeo.contact} breadcrumbs={breadcrumbs}>
+  <PageHero
+    metadata={siteCopy.contact.hero.metadata}
+    title={siteCopy.contact.hero.h1}
+    intro={siteCopy.contact.hero.intro}
+    ctaLabel={siteCopy.contact.hero.primaryCta}
+    ctaHref={contactLinks.phone}
+    secondaryCtaLabel={siteCopy.contact.hero.secondaryCta}
+    secondaryCtaHref={contactLinks.email}
+    breadcrumbs={visualBreadcrumbs}
+  />
+
+  <section class="section">
+    <div class="container">
+      <div class="contact-table">
+        <div class="contact-row">
+          <h2 class="contact-row__label">{siteCopy.contact.phone.label}</h2>
+          <a class="contact-row__value" href={contactLinks.phone}>{siteCopy.contact.phone.value}</a>
+          <ActionLink href={contactLinks.phone} label={siteCopy.contact.phone.cta} variant="blue" />
+        </div>
+        <div class="contact-row">
+          <h2 class="contact-row__label">{siteCopy.contact.email.label}</h2>
+          <a class="contact-row__value" href={contactLinks.emailWithSubject}>{business.email.display}</a>
+          <ActionLink href={contactLinks.emailWithSubject} label={siteCopy.contact.email.cta} variant="blue" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--navy" aria-labelledby="social-title">
+    <div class="container">
+      <h2 id="social-title">{siteCopy.contact.social.h2}</h2>
+      <div class="social-rows">
+        {
+          socialLinks.map((item) => (
+            <div class="social-row">
+              <strong>{item.label}</strong>
+              <ActionLink href={item.href} label={item.cta} variant="yellow" external />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--white" aria-labelledby="useful-info-title">
+    <div class="container">
+      <div class="statement-panel">
+        <h2 id="useful-info-title">{siteCopy.contact.useful.h2}</h2>
+        <p class="lead">{siteCopy.contact.useful.text}</p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

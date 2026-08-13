@@ -1,0 +1,40 @@
+---
+import { business } from "../../data/business";
+
+interface Props {
+  variant?: "header" | "menu" | "hero" | "footer";
+  href?: string;
+  loading?: "eager" | "lazy";
+}
+
+const { variant = "header", href, loading = "eager" } = Astro.props;
+const className = `logo-mark logo-mark--${variant}`;
+---
+
+{
+  href ? (
+    <span class={className}>
+      <a class="logo-mark__link" href={href}>
+        <img
+          src={business.logo.cropped}
+          alt={business.logo.alt}
+          width={business.logo.width}
+          height={business.logo.height}
+          loading={loading}
+          decoding="async"
+        />
+      </a>
+    </span>
+  ) : (
+    <span class={className}>
+      <img
+        src={business.logo.cropped}
+        alt={business.logo.alt}
+        width={business.logo.width}
+        height={business.logo.height}
+        loading={loading}
+        decoding="async"
+      />
+    </span>
+  )
+}

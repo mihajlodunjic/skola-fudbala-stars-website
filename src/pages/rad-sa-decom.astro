@@ -1,0 +1,58 @@
+---
+import ActionLink from "../components/common/ActionLink.astro";
+import ContactBand from "../components/common/ContactBand.astro";
+import PageHero from "../components/common/PageHero.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { contactLinks } from "../data/business";
+import { pageSeo } from "../data/seo";
+import { siteCopy } from "../data/site-copy";
+
+const breadcrumbs = [
+  { label: "Početna", href: "/" },
+  { label: "Rad sa decom", href: "/rad-sa-decom/" },
+];
+
+const visualBreadcrumbs = [{ label: "Početna", href: "/" }, { label: "Rad sa decom" }];
+---
+
+<BaseLayout seo={pageSeo.childWork} breadcrumbs={breadcrumbs}>
+  <PageHero
+    metadata={siteCopy.childWork.hero.metadata}
+    title={siteCopy.childWork.hero.h1}
+    intro={siteCopy.childWork.hero.intro}
+    ctaLabel={siteCopy.childWork.hero.cta}
+    ctaHref="/kontakt/"
+    breadcrumbs={visualBreadcrumbs}
+  />
+
+  <section class="section">
+    <div class="container">
+      <div class="content-rows">
+        {
+          siteCopy.childWork.sections.map((section) => (
+            <article class="content-row">
+              <p class="meta">{section.metadata}</p>
+              <h2>{section.h2}</h2>
+              <p>{section.text}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--white" aria-labelledby="group-contact-title">
+    <div class="container">
+      <div class="statement-panel">
+        <h2 id="group-contact-title">{siteCopy.childWork.groupContact.h2}</h2>
+        <p class="lead">{siteCopy.childWork.groupContact.text}</p>
+        <div class="action-row" style="margin-top: var(--space-6);">
+          <ActionLink href={contactLinks.phone} label={siteCopy.childWork.groupContact.primaryCta} variant="yellow" />
+          <ActionLink href={contactLinks.email} label={siteCopy.childWork.groupContact.secondaryCta} variant="light" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <ContactBand />
+</BaseLayout>

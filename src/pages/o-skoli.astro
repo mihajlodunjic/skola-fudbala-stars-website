@@ -1,0 +1,76 @@
+---
+import ActionLink from "../components/common/ActionLink.astro";
+import ContactBand from "../components/common/ContactBand.astro";
+import PageHero from "../components/common/PageHero.astro";
+import SectionLabel from "../components/common/SectionLabel.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { contactLinks } from "../data/business";
+import { pageSeo } from "../data/seo";
+import { siteCopy } from "../data/site-copy";
+
+const breadcrumbs = [
+  { label: "Početna", href: "/" },
+  { label: "O školi", href: "/o-skoli/" },
+];
+
+const visualBreadcrumbs = [{ label: "Početna", href: "/" }, { label: "O školi" }];
+---
+
+<BaseLayout seo={pageSeo.about} breadcrumbs={breadcrumbs}>
+  <PageHero
+    metadata={siteCopy.about.hero.metadata}
+    title={siteCopy.about.hero.h1}
+    intro={siteCopy.about.hero.intro}
+    ctaLabel={siteCopy.about.hero.cta}
+    ctaHref="/kontakt/"
+    breadcrumbs={visualBreadcrumbs}
+  />
+
+  <section class="section" aria-labelledby="founded-title">
+    <div class="container grid year-section">
+      <div style="grid-column: 1 / -1;">
+        <SectionLabel text={siteCopy.about.founded.metadata} />
+      </div>
+      <div class="year-number" aria-hidden="true">2011</div>
+      <div class="text-measure">
+        <h2 id="founded-title">{siteCopy.about.founded.h2}</h2>
+        <p class="lead">{siteCopy.about.founded.text}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--white" aria-labelledby="about-rows-title">
+    <div class="container">
+      <div class="content-rows">
+        <article class="content-row">
+          <h2 id="about-rows-title">{siteCopy.about.identity.h2}</h2>
+          <p>{siteCopy.about.identity.text}</p>
+        </article>
+        <article class="content-row">
+          <h2>{siteCopy.about.organization.h2}</h2>
+          <p>{siteCopy.about.organization.text}</p>
+        </article>
+        <article class="content-row">
+          <h2>{siteCopy.about.activities.h2}</h2>
+          <p>
+            {siteCopy.about.activities.text}
+            <br />
+            {siteCopy.about.activities.note}
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--navy" aria-labelledby="about-contact-title">
+    <div class="container">
+      <h2 id="about-contact-title">{siteCopy.about.finalCta.h2}</h2>
+      <p class="lead">{siteCopy.about.finalCta.text}</p>
+      <div class="action-row" style="margin-top: var(--space-6);">
+        <ActionLink href={contactLinks.phone} label={siteCopy.about.finalCta.cta} variant="yellow" />
+      </div>
+    </div>
+  </section>
+
+  <ContactBand />
+</BaseLayout>

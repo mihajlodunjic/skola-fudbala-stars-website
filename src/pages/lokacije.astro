@@ -1,0 +1,81 @@
+---
+import ActionLink from "../components/common/ActionLink.astro";
+import ContactBand from "../components/common/ContactBand.astro";
+import PageHero from "../components/common/PageHero.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { contactLinks } from "../data/business";
+import { activeTrainingLocations } from "../data/locations";
+import { pageSeo } from "../data/seo";
+import { siteCopy } from "../data/site-copy";
+
+const breadcrumbs = [
+  { label: "Početna", href: "/" },
+  { label: "Lokacije", href: "/lokacije/" },
+];
+
+const visualBreadcrumbs = [{ label: "Početna", href: "/" }, { label: "Lokacije" }];
+---
+
+<BaseLayout seo={pageSeo.locations} breadcrumbs={breadcrumbs}>
+  <PageHero
+    metadata={siteCopy.locations.hero.metadata}
+    title={siteCopy.locations.hero.h1}
+    intro={siteCopy.locations.hero.intro}
+    ctaLabel={siteCopy.locations.hero.cta}
+    ctaHref="/kontakt/"
+    breadcrumbs={visualBreadcrumbs}
+  />
+
+  <section class="section" aria-labelledby="dynamic-locations-title">
+    <div class="container">
+      <div class="split-heading">
+        <span aria-hidden="true"></span>
+        <div>
+          <h2 id="dynamic-locations-title">{siteCopy.locations.dynamic.h2}</h2>
+          <p class="lead">{siteCopy.locations.dynamic.text}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {
+    activeTrainingLocations.length > 0 && (
+      <section class="section section--white" aria-labelledby="active-locations-title">
+        <div class="container">
+          <h2 id="active-locations-title">Aktivne lokacije</h2>
+          <div class="content-rows">
+            {activeTrainingLocations.map((location, index) => (
+              <article class="content-row">
+                <p class="meta">BG/{String(index + 1).padStart(2, "0")}</p>
+                <h2>{location.venueName}</h2>
+                <p>
+                  {location.area}
+                  <br />
+                  {location.address}
+                </p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <section class="section section--white" aria-labelledby="location-inquiry-title">
+    <div class="container grid">
+      <div class="page-hero__copy" style="grid-column: 1 / -1;">
+        <h2 id="location-inquiry-title">{siteCopy.locations.inquiry.h2}</h2>
+        <p class="lead">{siteCopy.locations.inquiry.intro}</p>
+        <ul class="inquiry-list">
+          {siteCopy.locations.inquiry.items.map((item) => <li>{item}</li>)}
+        </ul>
+        <div class="action-row">
+          <ActionLink href={contactLinks.phone} label={siteCopy.locations.inquiry.primaryCta} variant="blue" />
+          <ActionLink href={contactLinks.email} label={siteCopy.locations.inquiry.secondaryCta} variant="outline" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <ContactBand />
+</BaseLayout>

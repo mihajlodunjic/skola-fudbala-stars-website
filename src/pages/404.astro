@@ -1,0 +1,22 @@
+---
+import ActionLink from "../components/common/ActionLink.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { pageSeo } from "../data/seo";
+import { siteCopy } from "../data/site-copy";
+---
+
+<BaseLayout seo={pageSeo.notFound}>
+  <section class="page-hero" aria-labelledby="not-found-title">
+    <div class="container grid">
+      <div class="page-hero__copy">
+        <p class="section-label">{siteCopy.notFound.metadata}</p>
+        <h1 id="not-found-title">{siteCopy.notFound.h1}</h1>
+        <p class="lead">{siteCopy.notFound.text}</p>
+        <div class="action-row">
+          <ActionLink href="/" label={siteCopy.notFound.primaryCta} variant="blue" />
+          <ActionLink href="/kontakt/" label={siteCopy.notFound.secondaryCta} variant="outline" />
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

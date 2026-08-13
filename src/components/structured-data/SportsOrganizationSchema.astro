@@ -1,0 +1,21 @@
+---
+import { business } from "../../data/business";
+import { socialLinks } from "../../data/social";
+import { absoluteUrl } from "../../data/seo";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SportsOrganization",
+  name: business.displayName,
+  alternateName: [business.formalDisplayName, ...business.alternateNames],
+  legalName: business.legalName,
+  foundingDate: business.foundedAt,
+  url: absoluteUrl("/"),
+  logo: absoluteUrl(business.logo.cropped),
+  telephone: business.phone.international,
+  email: business.email.display,
+  sameAs: socialLinks.map((item) => item.href),
+};
+---
+
+<script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />
