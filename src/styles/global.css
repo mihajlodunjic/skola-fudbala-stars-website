@@ -120,6 +120,13 @@ html.menu-open body {
   width: 0.625rem;
 }
 
+.section-label::before,
+.hero-note::before,
+.inquiry-list li::before {
+  clip-path: polygon(50% 0, 62% 35%, 100% 35%, 69% 56%, 81% 91%, 50% 69%, 19% 91%, 31% 56%, 0 35%, 38% 35%);
+  flex: 0 0 auto;
+}
+
 h1,
 h2,
 h3,
@@ -1850,6 +1857,7 @@ html.menu-open .site-header {
 .inquiry-list li::before {
   background: var(--ball-yellow);
   content: "";
+  display: block;
   height: 0.625rem;
   width: 0.625rem;
 }
