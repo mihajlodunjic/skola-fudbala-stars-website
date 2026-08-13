@@ -77,8 +77,12 @@ import { siteCopy } from "../data/site-copy";
         aria-label="Stilizovana taktička vežba: četiri igrača prate igru, sarađuju, preuzimaju zadatak i završavaju akciju kao tim."
       >
         <div class="training-board__field" aria-hidden="true">
-          <div class="training-board__label">VEŽBA 02 · TIMSKA AKCIJA</div>
-          <svg class="training-board__pitch" viewBox="0 0 720 540" focusable="false">
+          <svg
+            class="training-board__pitch"
+            viewBox="0 0 720 540"
+            preserveAspectRatio="xMidYMid meet"
+            focusable="false"
+          >
             <defs>
               <marker id="route-arrow-blue" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
                 <path d="M0 0 L8 4 L0 8 Z" class="route-arrow route-arrow--blue"></path>
@@ -87,23 +91,76 @@ import { siteCopy } from "../data/site-copy";
                 <path d="M0 0 L8 4 L0 8 Z" class="route-arrow route-arrow--yellow"></path>
               </marker>
             </defs>
-            <rect class="pitch-line pitch-line--draw" x="28" y="34" width="664" height="472" rx="10" pathLength="1"></rect>
-            <line class="pitch-line pitch-line--draw pitch-line--muted" x1="360" y1="34" x2="360" y2="506" pathLength="1"></line>
-            <circle class="pitch-line pitch-line--draw pitch-line--muted" cx="360" cy="270" r="74" pathLength="1"></circle>
-            <rect class="pitch-line pitch-line--draw" x="28" y="174" width="116" height="192" rx="0" pathLength="1"></rect>
-            <rect class="pitch-line pitch-line--draw" x="576" y="174" width="116" height="192" rx="0" pathLength="1"></rect>
-            <rect class="free-space" x="492" y="198" width="124" height="98" rx="6"></rect>
-            <path class="route route-pass-one" d="M144 346 C204 318 246 292 302 276" pathLength="1" marker-end="url(#route-arrow-yellow)"></path>
-            <path class="route route-run-three" d="M440 346 C474 318 500 278 526 254" pathLength="1" marker-end="url(#route-arrow-blue)"></path>
-            <path class="route route-pass-two" d="M302 276 C376 255 452 246 526 254" pathLength="1" marker-end="url(#route-arrow-yellow)"></path>
-            <path class="team-link team-link--one" d="M166 334 L318 296 L526 254 L354 410 Z" pathLength="1"></path>
-            <path class="team-link team-link--two" d="M166 334 L354 410 M318 296 L354 410" pathLength="1"></path>
+            <rect class="pitch-background" x="0" y="0" width="720" height="540" rx="0"></rect>
+
+            <g class="pitch-layer">
+              <rect class="pitch-line pitch-line--draw" x="28" y="34" width="664" height="472" rx="10" pathLength="1"></rect>
+              <line class="pitch-line pitch-line--draw pitch-line--muted" x1="360" y1="34" x2="360" y2="506" pathLength="1"></line>
+              <circle class="pitch-line pitch-line--draw pitch-line--muted" cx="360" cy="270" r="74" pathLength="1"></circle>
+              <rect class="pitch-line pitch-line--draw" x="28" y="174" width="116" height="192" rx="0" pathLength="1"></rect>
+              <rect class="pitch-line pitch-line--draw" x="576" y="174" width="116" height="192" rx="0" pathLength="1"></rect>
+              <rect class="free-space" x="492" y="198" width="124" height="98" rx="6"></rect>
+            </g>
+
+            <g class="route-layer">
+              <path class="route route-pass-one" d="M144 346 C204 318 246 292 302 276" pathLength="1" marker-end="url(#route-arrow-yellow)"></path>
+              <path class="route route-run-three" d="M440 346 C474 318 500 278 526 254" pathLength="1" marker-end="url(#route-arrow-blue)"></path>
+              <path class="route route-pass-two" d="M302 276 C382 253 470 242 558 238" pathLength="1" marker-end="url(#route-arrow-yellow)"></path>
+            </g>
+
+            <g class="team-layer">
+              <path class="team-link team-link--one" d="M166 334 L318 296 L526 254 L354 410 Z" pathLength="1"></path>
+              <path class="team-link team-link--two" d="M166 334 L354 410 M318 296 L354 410" pathLength="1"></path>
+            </g>
+
+            <g class="ball-layer">
+              <circle class="tactical-ball" cx="558" cy="238" r="10">
+                <animate class="tactical-motion" attributeName="cx" values="144;144;302;302;558;558" keyTimes="0;0.2;0.43;0.62;0.82;1" dur="7.8s" repeatCount="indefinite" begin="indefinite"></animate>
+                <animate class="tactical-motion" attributeName="cy" values="346;346;276;276;238;238" keyTimes="0;0.2;0.43;0.62;0.82;1" dur="7.8s" repeatCount="indefinite" begin="indefinite"></animate>
+              </circle>
+            </g>
+
+            <g class="player-layer">
+              <g class="tactical-player tactical-player--01" transform="translate(166 334)">
+                <animateTransform class="tactical-motion" attributeName="transform" type="translate" values="144 346;144 346;166 334;166 334;166 334" keyTimes="0;0.52;0.72;0.9;1" dur="7.8s" repeatCount="indefinite" begin="indefinite"></animateTransform>
+                <g class="player-core">
+                  <circle r="22"></circle>
+                  <text y="1">01</text>
+                </g>
+              </g>
+              <g class="tactical-player tactical-player--02" transform="translate(318 296)">
+                <animateTransform class="tactical-motion" attributeName="transform" type="translate" values="302 276;302 276;318 296;318 296" keyTimes="0;0.54;0.72;1" dur="7.8s" repeatCount="indefinite" begin="indefinite"></animateTransform>
+                <g class="player-core">
+                  <circle r="22"></circle>
+                  <text y="1">02</text>
+                </g>
+              </g>
+              <g class="tactical-player tactical-player--03" transform="translate(526 254)">
+                <animateTransform class="tactical-motion" attributeName="transform" type="translate" values="440 346;440 346;526 254;526 254" keyTimes="0;0.55;0.78;1" dur="7.8s" repeatCount="indefinite" begin="indefinite"></animateTransform>
+                <g class="player-core">
+                  <circle r="22"></circle>
+                  <text y="1">03</text>
+                </g>
+              </g>
+              <g class="tactical-player tactical-player--04" transform="translate(354 410)">
+                <animateTransform class="tactical-motion" attributeName="transform" type="translate" values="354 410;354 410;372 396;354 410;354 410" keyTimes="0;0.54;0.7;0.86;1" dur="7.8s" repeatCount="indefinite" begin="indefinite"></animateTransform>
+                <g class="player-core">
+                  <circle r="22"></circle>
+                  <text y="1">04</text>
+                </g>
+              </g>
+            </g>
+
+            <g class="ring-layer">
+              <circle class="active-ring active-ring--watch" cx="302" cy="276" r="31"></circle>
+              <circle class="active-ring active-ring--task" cx="526" cy="254" r="31"></circle>
+            </g>
+
+            <g class="board-label">
+              <rect x="48" y="28" width="186" height="38" rx="0"></rect>
+              <text x="64" y="53">VEŽBA 02 · TIMSKA AKCIJA</text>
+            </g>
           </svg>
-          <span class="tactical-player tactical-player--01"><span>01</span></span>
-          <span class="tactical-player tactical-player--02"><span>02</span></span>
-          <span class="tactical-player tactical-player--03"><span>03</span></span>
-          <span class="tactical-player tactical-player--04"><span>04</span></span>
-          <span class="tactical-ball"></span>
         </div>
         <ol class="training-board__status" aria-hidden="true">
           <li>PRATI IGRU</li>
@@ -116,32 +173,228 @@ import { siteCopy } from "../data/site-copy";
   </section>
 
   <script is:inline>
-    (() => {
-      const boards = document.querySelectorAll("[data-tactical-board]");
-      if (!boards.length) return;
+  (() => {
+    try {
+    const boards = Array.from(document.querySelectorAll("[data-tactical-board]"));
+    if (!boards.length) return;
 
-      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const startRatio = 0.1;
+    const states = new WeakMap();
+
+    const getState = (board) => {
+      if (!states.has(board)) {
+        states.set(board, { running: false, starting: false, token: 0, raf: 0 });
+      }
+
+      return states.get(board);
+    };
+
+    const getViewport = () => ({
+      width: Math.max(window.innerWidth || 0, window.visualViewport?.width || 0),
+      height: Math.max(window.innerHeight || 0, window.visualViewport?.height || 0),
+    });
+
+    const getMetrics = (board) => {
+      const rect = board.getBoundingClientRect();
+      const viewport = getViewport();
+      const visibleWidth = Math.max(0, Math.min(rect.right, viewport.width) - Math.max(rect.left, 0));
+      const visibleHeight = Math.max(0, Math.min(rect.bottom, viewport.height) - Math.max(rect.top, 0));
+      const area = Math.max(1, rect.width * rect.height);
+
+      return {
+        ratio: (visibleWidth * visibleHeight) / area,
+        out: rect.bottom <= 0 || rect.top >= viewport.height || rect.right <= 0 || rect.left >= viewport.width,
+      };
+    };
+
+    const frameTwice = () =>
+      new Promise((resolve) => {
+        requestAnimationFrame(() => requestAnimationFrame(resolve));
+      });
+
+    const getSvg = (board) => board.querySelector(".training-board__pitch");
+    const getMotion = (board) => Array.from(board.querySelectorAll(".tactical-motion"));
+
+    const endSvgMotion = (board) => {
+      getMotion(board).forEach((motion) => {
+        try {
+          motion.endElement();
+        } catch {
+          /* SVG animation may not have started yet. */
+        }
+      });
+    };
+
+    const pauseSvgMotion = (board) => {
+      try {
+        getSvg(board)?.pauseAnimations();
+      } catch {
+        /* Some browsers expose SVG animation controls partially. */
+      }
+    };
+
+    const startSvgMotion = (board) => {
+      const svg = getSvg(board);
+
+      try {
+        svg?.setCurrentTime(0);
+      } catch {
+        /* Keep CSS animation fallback if SVG timeline cannot be reset. */
+      }
+
+      getMotion(board).forEach((motion) => {
+        try {
+          motion.beginElement();
+        } catch {
+          /* Static final state remains visible if SVG animation is unavailable. */
+        }
+      });
+
+      try {
+        svg?.unpauseAnimations();
+      } catch {
+        /* Static final state remains visible if SVG animation is unavailable. */
+      }
+    };
+
+    const resetBoard = (board) => {
+      const state = getState(board);
+      state.token += 1;
+      state.running = false;
+      state.starting = false;
+      board.classList.remove("is-running", "is-animated");
+      endSvgMotion(board);
+      pauseSvgMotion(board);
+    };
+
+    const suspendBoard = (board) => {
+      const state = getState(board);
+      state.token += 1;
+      state.running = false;
+      state.starting = false;
+      board.classList.remove("is-running");
+      pauseSvgMotion(board);
+    };
+
+    const startBoard = async (board, restart = false) => {
+      const state = getState(board);
+      if (state.starting || (state.running && !restart)) return;
+
+      state.token += 1;
+      const token = state.token;
+      state.starting = true;
+      state.running = false;
+
+      endSvgMotion(board);
+      board.classList.add("is-animated");
+      board.classList.remove("is-running");
+
+      await frameTwice();
+
+      const metrics = getMetrics(board);
+      if (state.token !== token || document.visibilityState === "hidden" || metrics.out || metrics.ratio < startRatio) {
+        state.starting = false;
+        return;
+      }
+
+      startSvgMotion(board);
+      board.classList.add("is-running");
+      state.running = true;
+      state.starting = false;
+    };
+
+    const syncBoard = (board, restart = false) => {
       if (reduceMotion.matches) {
-        boards.forEach((board) => board.classList.add("is-final"));
+        resetBoard(board);
         return;
       }
 
-      if (!("IntersectionObserver" in window)) {
-        boards.forEach((board) => board.classList.add("is-running"));
+      const metrics = getMetrics(board);
+      const state = getState(board);
+
+      if (metrics.out) {
+        if (state.running || state.starting || board.classList.contains("is-animated")) resetBoard(board);
         return;
       }
 
+      if (metrics.ratio >= startRatio) {
+        startBoard(board, restart);
+      }
+    };
+
+    const queueSync = (board, restart = false) => {
+      const state = getState(board);
+      if (state.raf) cancelAnimationFrame(state.raf);
+      state.raf = requestAnimationFrame(() => {
+        state.raf = 0;
+        syncBoard(board, restart);
+      });
+    };
+
+    const syncAll = (restart = false) => boards.forEach((board) => queueSync(board, restart));
+
+    boards.forEach((board) => resetBoard(board));
+
+    if (reduceMotion.matches) return;
+
+    if ("IntersectionObserver" in window) {
       const observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
-            entry.target.classList.toggle("is-running", entry.isIntersecting);
+            if (entry.intersectionRatio >= startRatio) {
+              startBoard(entry.target);
+              return;
+            }
+
+            queueSync(entry.target);
           });
         },
-        { threshold: 0.32, rootMargin: "0px 0px -8% 0px" },
+        { threshold: [0, startRatio], rootMargin: "0px" },
       );
 
       boards.forEach((board) => observer.observe(board));
-    })();
+    } else {
+      window.addEventListener("scroll", () => syncAll(), { passive: true });
+      window.addEventListener("resize", () => syncAll(), { passive: true });
+    }
+
+    window.visualViewport?.addEventListener("resize", () => syncAll(), { passive: true });
+    window.visualViewport?.addEventListener("scroll", () => syncAll(), { passive: true });
+
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "hidden") {
+        boards.forEach((board) => suspendBoard(board));
+        return;
+      }
+
+      syncAll(true);
+    });
+
+    window.addEventListener("pageshow", (event) => {
+      syncAll(Boolean(event.persisted));
+    });
+
+    reduceMotion.addEventListener?.("change", (event) => {
+      if (event.matches) {
+        boards.forEach((board) => resetBoard(board));
+        return;
+      }
+
+      syncAll(true);
+    });
+
+    window.addEventListener("load", () => {
+      syncAll();
+    });
+
+    syncAll();
+    } catch {
+      document.querySelectorAll("[data-tactical-board]").forEach((board) => {
+        board.classList.remove("is-running", "is-animated");
+      });
+    }
+  })();
   </script>
 
   <section class="section section--white" aria-labelledby="groups-title">

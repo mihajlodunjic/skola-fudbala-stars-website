@@ -724,6 +724,7 @@ html.menu-open .site-header {
   align-items: center;
   gap: var(--space-8);
   grid-template-columns: minmax(0, 1fr);
+  min-width: 0;
 }
 
 .editorial-copy {
@@ -731,51 +732,45 @@ html.menu-open .site-header {
   gap: var(--space-5, 1.25rem);
   grid-column: auto;
   max-width: 34rem;
+  min-width: 0;
   order: 1;
 }
 
 .training-board {
   --board-duration: 7.8s;
+  -webkit-text-size-adjust: 100%;
   background: #f7fafc;
   border: 0.125rem solid var(--club-blue);
   border-radius: var(--radius);
   grid-column: auto;
   justify-self: center;
-  max-width: 36rem;
+  max-width: 100%;
+  min-width: 0;
   order: 2;
   overflow: hidden;
   position: relative;
+  text-size-adjust: 100%;
   width: 100%;
 }
 
 .training-board__field {
   aspect-ratio: 4 / 3;
   background: #f6f9fb;
+  min-width: 0;
   overflow: hidden;
   position: relative;
 }
 
-.training-board__label {
-  align-items: center;
-  background: var(--club-navy);
-  color: var(--white);
-  display: inline-flex;
-  font-family: var(--font-display);
-  font-size: 0.62rem;
-  font-weight: 800;
-  left: var(--space-3);
-  line-height: 1;
-  min-height: 1.75rem;
-  padding: 0.45rem 0.55rem;
-  position: absolute;
-  top: var(--space-3);
-  z-index: 3;
+.training-board__pitch {
+  aspect-ratio: 4 / 3;
+  display: block;
+  height: auto;
+  max-width: 100%;
+  width: 100%;
 }
 
-.training-board__pitch {
-  display: block;
-  height: 100%;
-  width: 100%;
+.pitch-background {
+  fill: #f6f9fb;
 }
 
 .pitch-line,
@@ -786,7 +781,7 @@ html.menu-open .site-header {
 }
 
 .pitch-line {
-  opacity: 0;
+  opacity: 0.74;
   stroke: var(--club-blue);
   stroke-linecap: square;
   stroke-linejoin: miter;
@@ -798,9 +793,14 @@ html.menu-open .site-header {
 }
 
 .pitch-line--draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+
+.training-board.is-animated .pitch-line--draw {
   animation: tactical-line-draw var(--board-duration) linear infinite both;
   animation-play-state: paused;
-  stroke-dasharray: 1;
+  opacity: 0;
   stroke-dashoffset: 1;
 }
 
@@ -813,19 +813,23 @@ html.menu-open .site-header {
 }
 
 .free-space {
+  fill: var(--soft-blue);
+  opacity: 0.42;
+}
+
+.training-board.is-animated .free-space {
   animation: tactical-free-space var(--board-duration) linear infinite both;
   animation-play-state: paused;
-  fill: var(--soft-blue);
   opacity: 0;
 }
 
 .route {
-  opacity: 0;
+  opacity: 0.78;
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: 4;
   stroke-dasharray: 1;
-  stroke-dashoffset: 1;
+  stroke-dashoffset: 0;
 }
 
 .route-pass-one,
@@ -838,110 +842,136 @@ html.menu-open .site-header {
   stroke-dasharray: 0.075 0.035;
 }
 
-.route-pass-one {
+.training-board.is-animated .route {
+  opacity: 0;
+  stroke-dashoffset: 1;
+}
+
+.training-board.is-animated .route-pass-one {
   animation: tactical-pass-one var(--board-duration) linear infinite both;
   animation-play-state: paused;
 }
 
-.route-run-three {
+.training-board.is-animated .route-run-three {
   animation: tactical-run-three var(--board-duration) linear infinite both;
   animation-play-state: paused;
 }
 
-.route-pass-two {
+.training-board.is-animated .route-pass-two {
   animation: tactical-pass-two var(--board-duration) linear infinite both;
   animation-play-state: paused;
 }
 
 .team-link {
-  animation: tactical-team-link var(--board-duration) linear infinite both;
-  animation-play-state: paused;
-  opacity: 0;
+  opacity: 0.68;
   stroke: rgba(19, 47, 80, 0.48);
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: 1.8;
   stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+
+.training-board.is-animated .team-link {
+  animation: tactical-team-link var(--board-duration) linear infinite both;
+  animation-play-state: paused;
+  opacity: 0;
   stroke-dashoffset: 1;
 }
 
-.tactical-player,
-.tactical-ball {
-  animation-duration: var(--board-duration);
-  animation-fill-mode: both;
-  animation-iteration-count: infinite;
-  animation-play-state: paused;
-  animation-timing-function: linear;
-  position: absolute;
-  z-index: 2;
-}
-
 .tactical-player {
-  align-items: center;
-  background: var(--club-blue);
-  border: 0.125rem solid var(--club-navy);
-  border-radius: 50%;
-  color: var(--white);
-  display: inline-flex;
+  opacity: 1;
+}
+
+.tactical-player .player-core {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.tactical-player circle {
+  fill: var(--club-blue);
+  stroke: var(--club-navy);
+  stroke-width: 4;
+  vector-effect: non-scaling-stroke;
+}
+
+.tactical-player text {
+  fill: var(--white);
   font-family: var(--font-display);
-  font-size: 0.74rem;
+  font-size: 17px;
   font-weight: 800;
-  height: 2rem;
-  justify-content: center;
   line-height: 1;
+  pointer-events: none;
+  text-anchor: middle;
+  dominant-baseline: middle;
+}
+
+.training-board.is-animated .tactical-player {
+  animation: tactical-player-appear var(--board-duration) linear infinite both;
+  animation-play-state: paused;
   opacity: 0;
-  width: 2rem;
 }
 
-.tactical-player::before {
-  border: 0.125rem solid var(--ball-yellow);
-  border-radius: 50%;
-  content: "";
-  inset: -0.45rem;
+.training-board.is-animated .tactical-player--02 .player-core {
+  animation: tactical-player-two-scale var(--board-duration) linear infinite both;
+  animation-play-state: paused;
+}
+
+.tactical-ball {
+  fill: var(--ball-yellow);
+  opacity: 1;
+  stroke: var(--club-navy);
+  stroke-width: 4;
+  transform-box: fill-box;
+  transform-origin: center;
+  vector-effect: non-scaling-stroke;
+}
+
+.training-board.is-animated .tactical-ball {
+  animation: tactical-ball-appear var(--board-duration) linear infinite both;
+  animation-play-state: paused;
   opacity: 0;
-  position: absolute;
-  transform: scale(0.72);
 }
 
-.tactical-player > span {
-  position: relative;
-  z-index: 1;
+.active-ring {
+  fill: none;
+  opacity: 0;
+  stroke: var(--ball-yellow);
+  stroke-width: 3;
+  transform-box: fill-box;
+  transform-origin: center;
+  vector-effect: non-scaling-stroke;
 }
 
-.tactical-player--01 {
-  animation-name: tactical-player-one;
+.active-ring--task {
+  opacity: 0.92;
 }
 
-.tactical-player--02 {
-  animation-name: tactical-player-two;
+.training-board.is-animated .active-ring {
+  opacity: 0;
 }
 
-.tactical-player--02::before {
+.training-board.is-animated .active-ring--watch {
   animation: tactical-ring-watch var(--board-duration) linear infinite both;
   animation-play-state: paused;
 }
 
-.tactical-player--03 {
-  animation-name: tactical-player-three;
-}
-
-.tactical-player--03::before {
+.training-board.is-animated .active-ring--task {
   animation: tactical-ring-task var(--board-duration) linear infinite both;
   animation-play-state: paused;
 }
 
-.tactical-player--04 {
-  animation-name: tactical-player-four;
+.board-label rect {
+  fill: var(--club-navy);
 }
 
-.tactical-ball {
-  animation-name: tactical-ball;
-  background: var(--ball-yellow);
-  border: 0.125rem solid var(--club-navy);
-  border-radius: 50%;
-  height: 1rem;
-  opacity: 0;
-  width: 1rem;
+.board-label text {
+  fill: var(--white);
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0;
+  line-height: 1;
 }
 
 .training-board__status {
@@ -957,11 +987,7 @@ html.menu-open .site-header {
 
 .training-board__status li {
   align-items: center;
-  animation-duration: var(--board-duration);
-  animation-fill-mode: both;
-  animation-iteration-count: infinite;
-  animation-play-state: paused;
-  animation-timing-function: linear;
+  background: var(--white);
   border: 0.0625rem solid rgba(29, 79, 120, 0.28);
   color: var(--club-blue);
   display: flex;
@@ -975,19 +1001,34 @@ html.menu-open .site-header {
   text-align: center;
 }
 
-.training-board__status li:nth-child(1) {
+.training-board__status li:nth-child(4) {
+  background: var(--ball-yellow);
+  border-color: var(--ball-yellow);
+  color: var(--club-navy);
+  opacity: 1;
+}
+
+.training-board.is-animated .training-board__status li {
+  animation-duration: var(--board-duration);
+  animation-fill-mode: both;
+  animation-iteration-count: infinite;
+  animation-play-state: paused;
+  animation-timing-function: linear;
+}
+
+.training-board.is-animated .training-board__status li:nth-child(1) {
   animation-name: tactical-phase-one;
 }
 
-.training-board__status li:nth-child(2) {
+.training-board.is-animated .training-board__status li:nth-child(2) {
   animation-name: tactical-phase-two;
 }
 
-.training-board__status li:nth-child(3) {
+.training-board.is-animated .training-board__status li:nth-child(3) {
   animation-name: tactical-phase-three;
 }
 
-.training-board__status li:nth-child(4) {
+.training-board.is-animated .training-board__status li:nth-child(4) {
   animation-name: tactical-phase-four;
 }
 
@@ -996,8 +1037,9 @@ html.menu-open .site-header {
 .training-board.is-running .route,
 .training-board.is-running .team-link,
 .training-board.is-running .tactical-player,
-.training-board.is-running .tactical-player::before,
 .training-board.is-running .tactical-ball,
+.training-board.is-running .player-core,
+.training-board.is-running .active-ring,
 .training-board.is-running .training-board__status li {
   animation-play-state: running;
 }
@@ -1083,122 +1125,31 @@ html.menu-open .site-header {
   }
 }
 
-@keyframes tactical-player-one {
+@keyframes tactical-player-appear {
   0%,
   12% {
-    left: 20%;
     opacity: 0;
-    top: 64%;
-    transform: translate(-50%, -50%) scale(0.92);
   }
 
   19%,
-  68% {
-    left: 20%;
-    opacity: 1;
-    top: 64%;
-    transform: translate(-50%, -50%) scale(1);
-  }
-
-  82%,
   100% {
-    left: 23%;
     opacity: 1;
-    top: 62%;
-    transform: translate(-50%, -50%) scale(1);
   }
 }
 
-@keyframes tactical-player-two {
+@keyframes tactical-player-two-scale {
   0%,
-  12% {
-    left: 42%;
-    opacity: 0;
-    top: 51%;
-    transform: translate(-50%, -50%) scale(0.92);
-  }
-
-  19%,
   43% {
-    left: 42%;
-    opacity: 1;
-    top: 51%;
-    transform: translate(-50%, -50%) scale(1);
+    transform: scale(1);
   }
 
   48% {
-    left: 42%;
-    opacity: 1;
-    top: 51%;
-    transform: translate(-50%, -50%) scale(1.08);
+    transform: scale(1.08);
   }
 
   54%,
-  75% {
-    left: 42%;
-    opacity: 1;
-    top: 51%;
-    transform: translate(-50%, -50%) scale(1);
-  }
-
-  86%,
   100% {
-    left: 44%;
-    opacity: 1;
-    top: 55%;
-    transform: translate(-50%, -50%) scale(1);
-  }
-}
-
-@keyframes tactical-player-three {
-  0%,
-  12% {
-    left: 61%;
-    opacity: 0;
-    top: 64%;
-    transform: translate(-50%, -50%) scale(0.92);
-  }
-
-  19%,
-  54% {
-    left: 61%;
-    opacity: 1;
-    top: 64%;
-    transform: translate(-50%, -50%) scale(1);
-  }
-
-  74%,
-  100% {
-    left: 73%;
-    opacity: 1;
-    top: 47%;
-    transform: translate(-50%, -50%) scale(1);
-  }
-}
-
-@keyframes tactical-player-four {
-  0%,
-  12% {
-    left: 44%;
-    opacity: 0;
-    top: 78%;
-    transform: translate(-50%, -50%) scale(0.92);
-  }
-
-  19%,
-  72% {
-    left: 44%;
-    opacity: 1;
-    top: 78%;
-    transform: translate(-50%, -50%) scale(1);
-  }
-
-  86%,
-  100% {
-    left: 49%;
-    opacity: 1;
-    top: 76%;
-    transform: translate(-50%, -50%) scale(1);
+    transform: scale(1);
   }
 }
 
@@ -1234,37 +1185,17 @@ html.menu-open .site-header {
   }
 }
 
-@keyframes tactical-ball {
+@keyframes tactical-ball-appear {
   0%,
   17% {
-    left: 20%;
     opacity: 0;
-    top: 64%;
-    transform: translate(-50%, -50%) scale(0.9);
+    transform: scale(0.9);
   }
 
   22%,
-  30% {
-    left: 20%;
-    opacity: 1;
-    top: 64%;
-    transform: translate(-50%, -50%) scale(1);
-  }
-
-  45%,
-  64% {
-    left: 42%;
-    opacity: 1;
-    top: 51%;
-    transform: translate(-50%, -50%) scale(1);
-  }
-
-  80%,
   100% {
-    left: 73%;
     opacity: 1;
-    top: 47%;
-    transform: translate(-50%, -50%) scale(1);
+    transform: scale(1);
   }
 }
 
@@ -1304,14 +1235,14 @@ html.menu-open .site-header {
   }
 
   43%,
-  58% {
+  56% {
     background: var(--ball-yellow);
     border-color: var(--ball-yellow);
     color: var(--club-navy);
     opacity: 1;
   }
 
-  64%,
+  60%,
   100% {
     background: var(--white);
     border-color: rgba(29, 79, 120, 0.36);
@@ -1322,7 +1253,7 @@ html.menu-open .site-header {
 
 @keyframes tactical-phase-three {
   0%,
-  58% {
+  60% {
     background: var(--white);
     border-color: rgba(29, 79, 120, 0.28);
     color: var(--club-blue);
@@ -1330,14 +1261,14 @@ html.menu-open .site-header {
   }
 
   62%,
-  80% {
+  78% {
     background: var(--ball-yellow);
     border-color: var(--ball-yellow);
     color: var(--club-navy);
     opacity: 1;
   }
 
-  86%,
+  82%,
   100% {
     background: var(--white);
     border-color: rgba(29, 79, 120, 0.36);
@@ -1372,6 +1303,7 @@ html.menu-open .site-header {
 
   .training-board {
     justify-self: start;
+    max-width: 36rem;
     order: 1;
   }
 
@@ -1380,23 +1312,8 @@ html.menu-open .site-header {
     order: 2;
   }
 
-  .training-board__label {
-    font-size: 0.78rem;
-    left: var(--space-4);
-    min-height: 2rem;
-    padding-inline: var(--space-3);
-    top: var(--space-4);
-  }
-
-  .tactical-player {
-    font-size: 0.82rem;
-    height: 2.35rem;
-    width: 2.35rem;
-  }
-
-  .tactical-ball {
-    height: 1.12rem;
-    width: 1.12rem;
+  .board-label text {
+    font-size: 15px;
   }
 
   .training-board__status {
@@ -1417,8 +1334,9 @@ html.menu-open .site-header {
   .route,
   .team-link,
   .tactical-player,
-  .tactical-player::before,
   .tactical-ball,
+  .player-core,
+  .active-ring,
   .training-board__status li {
     animation: none !important;
   }
@@ -1446,35 +1364,16 @@ html.menu-open .site-header {
     opacity: 1;
   }
 
-  .tactical-player--01 {
-    left: 23%;
-    top: 62%;
-    transform: translate(-50%, -50%) scale(1);
-  }
-
-  .tactical-player--02 {
-    left: 44%;
-    top: 55%;
-    transform: translate(-50%, -50%) scale(1);
-  }
-
-  .tactical-player--03 {
-    left: 73%;
-    top: 47%;
-    transform: translate(-50%, -50%) scale(1);
-  }
-
-  .tactical-player--04 {
-    left: 49%;
-    top: 76%;
-    transform: translate(-50%, -50%) scale(1);
-  }
-
   .tactical-ball {
-    left: 73%;
     opacity: 1;
-    top: 47%;
-    transform: translate(-50%, -50%) scale(1);
+  }
+
+  .active-ring {
+    opacity: 0;
+  }
+
+  .active-ring--task {
+    opacity: 0.92;
   }
 
   .training-board__status li {
