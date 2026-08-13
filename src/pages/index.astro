@@ -94,23 +94,23 @@ import { siteCopy } from "../data/site-copy";
             <rect class="pitch-background" x="0" y="0" width="720" height="540" rx="0"></rect>
 
             <g class="pitch-layer">
-              <rect class="pitch-line pitch-line--draw" x="28" y="34" width="664" height="472" rx="10" pathLength="1"></rect>
-              <line class="pitch-line pitch-line--draw pitch-line--muted" x1="360" y1="34" x2="360" y2="506" pathLength="1"></line>
-              <circle class="pitch-line pitch-line--draw pitch-line--muted" cx="360" cy="270" r="74" pathLength="1"></circle>
-              <rect class="pitch-line pitch-line--draw" x="28" y="174" width="116" height="192" rx="0" pathLength="1"></rect>
-              <rect class="pitch-line pitch-line--draw" x="576" y="174" width="116" height="192" rx="0" pathLength="1"></rect>
+              <rect class="pitch-line pitch-line--draw pitch-line--outer" x="28" y="34" width="664" height="472" rx="10"></rect>
+              <line class="pitch-line pitch-line--draw pitch-line--muted pitch-line--straight" x1="360" y1="34" x2="360" y2="506"></line>
+              <circle class="pitch-line pitch-line--draw pitch-line--muted pitch-line--circle" cx="360" cy="270" r="74"></circle>
+              <rect class="pitch-line pitch-line--draw pitch-line--box" x="28" y="174" width="116" height="192" rx="0"></rect>
+              <rect class="pitch-line pitch-line--draw pitch-line--box" x="576" y="174" width="116" height="192" rx="0"></rect>
               <rect class="free-space" x="492" y="198" width="124" height="98" rx="6"></rect>
             </g>
 
             <g class="route-layer">
-              <path class="route route-pass-one" d="M144 346 C204 318 246 292 302 276" pathLength="1" marker-end="url(#route-arrow-yellow)"></path>
-              <path class="route route-run-three" d="M440 346 C474 318 500 278 526 254" pathLength="1" marker-end="url(#route-arrow-blue)"></path>
-              <path class="route route-pass-two" d="M302 276 C382 253 470 242 558 238" pathLength="1" marker-end="url(#route-arrow-yellow)"></path>
+              <path class="route route-pass-one" d="M144 346 C204 318 246 292 302 276" marker-end="url(#route-arrow-yellow)"></path>
+              <path class="route route-run-three" d="M440 346 C474 318 500 278 526 254" marker-end="url(#route-arrow-blue)"></path>
+              <path class="route route-pass-two" d="M302 276 C382 253 470 242 558 238" marker-end="url(#route-arrow-yellow)"></path>
             </g>
 
             <g class="team-layer">
-              <path class="team-link team-link--one" d="M166 334 L318 296 L526 254 L354 410 Z" pathLength="1"></path>
-              <path class="team-link team-link--two" d="M166 334 L354 410 M318 296 L354 410" pathLength="1"></path>
+              <path class="team-link team-link--one" d="M166 334 L318 296 L526 254 L354 410 Z"></path>
+              <path class="team-link team-link--two" d="M166 334 L354 410 M318 296 L354 410"></path>
             </g>
 
             <g class="ball-layer">

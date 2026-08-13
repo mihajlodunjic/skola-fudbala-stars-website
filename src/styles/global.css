@@ -792,8 +792,21 @@ html.menu-open .site-header {
   stroke-width: 1.6;
 }
 
+.pitch-line--outer {
+  --draw-length: 2300;
+}
+
+.pitch-line--straight,
+.pitch-line--circle {
+  --draw-length: 480;
+}
+
+.pitch-line--box {
+  --draw-length: 620;
+}
+
 .pitch-line--draw {
-  stroke-dasharray: 1;
+  stroke-dasharray: var(--draw-length);
   stroke-dashoffset: 0;
 }
 
@@ -801,7 +814,7 @@ html.menu-open .site-header {
   animation: tactical-line-draw var(--board-duration) linear infinite both;
   animation-play-state: paused;
   opacity: 0;
-  stroke-dashoffset: 1;
+  stroke-dashoffset: var(--draw-length);
 }
 
 .route-arrow--blue {
@@ -828,7 +841,7 @@ html.menu-open .site-header {
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: 4;
-  stroke-dasharray: 1;
+  stroke-dasharray: var(--draw-length, 360);
   stroke-dashoffset: 0;
 }
 
@@ -838,13 +851,23 @@ html.menu-open .site-header {
 }
 
 .route-run-three {
+  --draw-length: 160;
   stroke: var(--club-blue);
-  stroke-dasharray: 0.075 0.035;
+  stroke-dasharray: 12 8;
+}
+
+.route-pass-one {
+  --draw-length: 190;
+}
+
+.route-pass-two {
+  --draw-length: 280;
 }
 
 .training-board.is-animated .route {
   opacity: 0;
-  stroke-dashoffset: 1;
+  stroke-dasharray: var(--draw-length, 360);
+  stroke-dashoffset: var(--draw-length, 360);
 }
 
 .training-board.is-animated .route-pass-one {
@@ -863,20 +886,25 @@ html.menu-open .site-header {
 }
 
 .team-link {
+  --draw-length: 860;
   opacity: 0.68;
   stroke: rgba(19, 47, 80, 0.48);
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: 1.8;
-  stroke-dasharray: 1;
+  stroke-dasharray: var(--draw-length);
   stroke-dashoffset: 0;
+}
+
+.team-link--two {
+  --draw-length: 460;
 }
 
 .training-board.is-animated .team-link {
   animation: tactical-team-link var(--board-duration) linear infinite both;
   animation-play-state: paused;
   opacity: 0;
-  stroke-dashoffset: 1;
+  stroke-dashoffset: var(--draw-length);
 }
 
 .tactical-player {
@@ -1047,7 +1075,7 @@ html.menu-open .site-header {
 @keyframes tactical-line-draw {
   0% {
     opacity: 0;
-    stroke-dashoffset: 1;
+    stroke-dashoffset: var(--draw-length);
   }
 
   12%,
@@ -1073,7 +1101,7 @@ html.menu-open .site-header {
   0%,
   27% {
     opacity: 0;
-    stroke-dashoffset: 1;
+    stroke-dashoffset: var(--draw-length, 360);
   }
 
   45%,
@@ -1087,12 +1115,20 @@ html.menu-open .site-header {
   0%,
   53% {
     opacity: 0;
-    stroke-dashoffset: 1;
+    stroke-dasharray: var(--draw-length, 160);
+    stroke-dashoffset: var(--draw-length, 160);
   }
 
-  72%,
+  72% {
+    opacity: 0.72;
+    stroke-dasharray: var(--draw-length, 160);
+    stroke-dashoffset: 0;
+  }
+
+  73%,
   100% {
     opacity: 0.72;
+    stroke-dasharray: 12 8;
     stroke-dashoffset: 0;
   }
 }
@@ -1101,7 +1137,7 @@ html.menu-open .site-header {
   0%,
   64% {
     opacity: 0;
-    stroke-dashoffset: 1;
+    stroke-dashoffset: var(--draw-length, 360);
   }
 
   80%,
@@ -1115,7 +1151,7 @@ html.menu-open .site-header {
   0%,
   80% {
     opacity: 0;
-    stroke-dashoffset: 1;
+    stroke-dashoffset: var(--draw-length);
   }
 
   88%,
@@ -1325,6 +1361,98 @@ html.menu-open .site-header {
   .training-board__status li {
     font-size: 0.68rem;
     min-height: 2.2rem;
+  }
+}
+
+@keyframes tactical-line-fade {
+  0% {
+    opacity: 0;
+  }
+
+  12%,
+  100% {
+    opacity: 0.74;
+  }
+}
+
+@keyframes tactical-pass-one-fade {
+  0%,
+  27% {
+    opacity: 0;
+  }
+
+  45%,
+  100% {
+    opacity: 0.84;
+  }
+}
+
+@keyframes tactical-run-three-fade {
+  0%,
+  53% {
+    opacity: 0;
+  }
+
+  72%,
+  100% {
+    opacity: 0.72;
+  }
+}
+
+@keyframes tactical-pass-two-fade {
+  0%,
+  64% {
+    opacity: 0;
+  }
+
+  80%,
+  100% {
+    opacity: 0.84;
+  }
+}
+
+@keyframes tactical-team-link-fade {
+  0%,
+  80% {
+    opacity: 0;
+  }
+
+  88%,
+  100% {
+    opacity: 0.68;
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .training-board.is-animated .pitch-line--draw,
+  .training-board.is-animated .route,
+  .training-board.is-animated .team-link {
+    stroke-dasharray: none;
+    stroke-dashoffset: 0;
+  }
+
+  .training-board.is-animated .route-run-three {
+    stroke-dasharray: 12 8;
+  }
+
+  .training-board.is-animated .pitch-line--draw {
+    animation-name: tactical-line-fade;
+  }
+
+  .training-board.is-animated .route-pass-one {
+    animation-name: tactical-pass-one-fade;
+  }
+
+  .training-board.is-animated .route-run-three {
+    animation-name: tactical-run-three-fade;
+  }
+
+  .training-board.is-animated .route-pass-two {
+    animation-name: tactical-pass-two-fade;
+  }
+
+  .training-board.is-animated .team-link {
+    animation-name: tactical-team-link-fade;
   }
 }
 
