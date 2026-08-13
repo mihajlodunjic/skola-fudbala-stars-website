@@ -354,12 +354,22 @@ h3 {
   z-index: 100;
 }
 
+html.menu-open .site-header {
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 100%;
+}
+
 .site-header__inner {
   align-items: center;
   display: flex;
   gap: var(--space-4);
   justify-content: space-between;
   min-height: var(--header-height);
+  position: relative;
+  z-index: 2;
 }
 
 .desktop-nav {
@@ -469,7 +479,7 @@ h3 {
   transition:
     opacity var(--motion-menu),
     transform var(--motion-menu);
-  z-index: 90;
+  z-index: 1;
 }
 
 .mobile-menu[hidden] {

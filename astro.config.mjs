@@ -9,6 +9,7 @@ export default defineConfig({
   trailingSlash: "always",
   build: {
     assets: "assets",
+    inlineStylesheets: "never",
   },
   integrations: [sitemap()],
 });
