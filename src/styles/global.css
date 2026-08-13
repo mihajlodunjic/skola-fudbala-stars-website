@@ -429,30 +429,31 @@ html.menu-open .site-header {
 .menu-toggle__line {
   background: currentColor;
   height: 0.125rem;
-  left: 0.6875rem;
+  left: 50%;
   position: absolute;
-  right: 0.6875rem;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  transform-origin: center;
   transition:
     transform var(--motion-menu),
-    opacity var(--motion-menu),
-    top var(--motion-menu);
+    opacity var(--motion-menu);
+  width: 1.375rem;
 }
 
 .menu-toggle__line:nth-child(1) {
-  top: 0.8125rem;
+  transform: translate(-50%, calc(-50% - 0.5rem));
 }
 
 .menu-toggle__line:nth-child(2) {
-  top: 1.3125rem;
+  transform: translate(-50%, -50%);
 }
 
 .menu-toggle__line:nth-child(3) {
-  top: 1.8125rem;
+  transform: translate(-50%, calc(-50% + 0.5rem));
 }
 
 .menu-toggle[aria-expanded="true"] .menu-toggle__line:nth-child(1) {
-  top: 1.3125rem;
-  transform: rotate(45deg);
+  transform: translate(-50%, -50%) rotate(45deg);
 }
 
 .menu-toggle[aria-expanded="true"] .menu-toggle__line:nth-child(2) {
@@ -460,8 +461,7 @@ html.menu-open .site-header {
 }
 
 .menu-toggle[aria-expanded="true"] .menu-toggle__line:nth-child(3) {
-  top: 1.3125rem;
-  transform: rotate(-45deg);
+  transform: translate(-50%, -50%) rotate(-45deg);
 }
 
 .mobile-menu {
