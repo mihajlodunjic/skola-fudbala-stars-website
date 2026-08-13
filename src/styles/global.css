@@ -712,70 +712,773 @@ h3 {
 
 .editorial-grid {
   align-items: center;
+  gap: var(--space-8);
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .editorial-copy {
   display: grid;
   gap: var(--space-5, 1.25rem);
-  grid-column: 1 / -1;
+  grid-column: auto;
+  max-width: 34rem;
+  order: 1;
 }
 
 .training-board {
-  background:
-    linear-gradient(var(--line), var(--line)) 0 33% / 100% 0.0625rem no-repeat,
-    linear-gradient(var(--line), var(--line)) 0 66% / 100% 0.0625rem no-repeat,
-    var(--white);
+  --board-duration: 7.8s;
+  background: #f7fafc;
   border: 0.125rem solid var(--club-blue);
-  display: grid;
-  grid-column: 1 / -1;
-  min-height: 24rem;
+  border-radius: var(--radius);
+  grid-column: auto;
+  justify-self: center;
+  max-width: 36rem;
+  order: 2;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.training-board__field {
+  aspect-ratio: 4 / 3;
+  background: #f6f9fb;
   overflow: hidden;
   position: relative;
 }
 
-.training-board::before {
-  border: 0.125rem solid var(--club-blue);
-  border-left: 0;
-  border-radius: 0 50% 50% 0;
-  content: "";
-  height: 9rem;
-  left: 0;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 5rem;
-}
-
-.training-board::after {
-  background: var(--ball-yellow);
-  bottom: 18%;
-  content: "";
-  height: 3.5rem;
-  position: absolute;
-  right: 16%;
-  width: 3.5rem;
-}
-
-.training-board__note {
-  align-self: end;
+.training-board__label {
+  align-items: center;
   background: var(--club-navy);
   color: var(--white);
+  display: inline-flex;
   font-family: var(--font-display);
-  font-size: 1.8rem;
+  font-size: 0.62rem;
   font-weight: 800;
-  min-height: 5.75rem;
+  left: var(--space-3);
   line-height: 1;
-  padding: var(--space-4);
-  width: min(18rem, 82%);
+  min-height: 1.75rem;
+  padding: 0.45rem 0.55rem;
+  position: absolute;
+  top: var(--space-3);
+  z-index: 3;
+}
+
+.training-board__pitch {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.pitch-line,
+.route,
+.team-link {
+  fill: none;
+  vector-effect: non-scaling-stroke;
+}
+
+.pitch-line {
+  opacity: 0;
+  stroke: var(--club-blue);
+  stroke-linecap: square;
+  stroke-linejoin: miter;
+  stroke-width: 2.4;
+}
+
+.pitch-line--muted {
+  stroke-width: 1.6;
+}
+
+.pitch-line--draw {
+  animation: tactical-line-draw var(--board-duration) linear infinite both;
+  animation-play-state: paused;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.route-arrow--blue {
+  fill: var(--club-blue);
+}
+
+.route-arrow--yellow {
+  fill: var(--ball-yellow);
+}
+
+.free-space {
+  animation: tactical-free-space var(--board-duration) linear infinite both;
+  animation-play-state: paused;
+  fill: var(--soft-blue);
+  opacity: 0;
+}
+
+.route {
+  opacity: 0;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 4;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.route-pass-one,
+.route-pass-two {
+  stroke: var(--ball-yellow);
+}
+
+.route-run-three {
+  stroke: var(--club-blue);
+  stroke-dasharray: 0.075 0.035;
+}
+
+.route-pass-one {
+  animation: tactical-pass-one var(--board-duration) linear infinite both;
+  animation-play-state: paused;
+}
+
+.route-run-three {
+  animation: tactical-run-three var(--board-duration) linear infinite both;
+  animation-play-state: paused;
+}
+
+.route-pass-two {
+  animation: tactical-pass-two var(--board-duration) linear infinite both;
+  animation-play-state: paused;
+}
+
+.team-link {
+  animation: tactical-team-link var(--board-duration) linear infinite both;
+  animation-play-state: paused;
+  opacity: 0;
+  stroke: rgba(19, 47, 80, 0.48);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.tactical-player,
+.tactical-ball {
+  animation-duration: var(--board-duration);
+  animation-fill-mode: both;
+  animation-iteration-count: infinite;
+  animation-play-state: paused;
+  animation-timing-function: linear;
+  position: absolute;
+  z-index: 2;
+}
+
+.tactical-player {
+  align-items: center;
+  background: var(--club-blue);
+  border: 0.125rem solid var(--club-navy);
+  border-radius: 50%;
+  color: var(--white);
+  display: inline-flex;
+  font-family: var(--font-display);
+  font-size: 0.74rem;
+  font-weight: 800;
+  height: 2rem;
+  justify-content: center;
+  line-height: 1;
+  opacity: 0;
+  width: 2rem;
+}
+
+.tactical-player::before {
+  border: 0.125rem solid var(--ball-yellow);
+  border-radius: 50%;
+  content: "";
+  inset: -0.45rem;
+  opacity: 0;
+  position: absolute;
+  transform: scale(0.72);
+}
+
+.tactical-player > span {
+  position: relative;
+  z-index: 1;
+}
+
+.tactical-player--01 {
+  animation-name: tactical-player-one;
+}
+
+.tactical-player--02 {
+  animation-name: tactical-player-two;
+}
+
+.tactical-player--02::before {
+  animation: tactical-ring-watch var(--board-duration) linear infinite both;
+  animation-play-state: paused;
+}
+
+.tactical-player--03 {
+  animation-name: tactical-player-three;
+}
+
+.tactical-player--03::before {
+  animation: tactical-ring-task var(--board-duration) linear infinite both;
+  animation-play-state: paused;
+}
+
+.tactical-player--04 {
+  animation-name: tactical-player-four;
+}
+
+.tactical-ball {
+  animation-name: tactical-ball;
+  background: var(--ball-yellow);
+  border: 0.125rem solid var(--club-navy);
+  border-radius: 50%;
+  height: 1rem;
+  opacity: 0;
+  width: 1rem;
+}
+
+.training-board__status {
+  background: var(--white);
+  border-top: 0.0625rem solid rgba(29, 79, 120, 0.28);
+  display: grid;
+  gap: 0.375rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  list-style: none;
+  margin: 0;
+  padding: 0.5rem;
+}
+
+.training-board__status li {
+  align-items: center;
+  animation-duration: var(--board-duration);
+  animation-fill-mode: both;
+  animation-iteration-count: infinite;
+  animation-play-state: paused;
+  animation-timing-function: linear;
+  border: 0.0625rem solid rgba(29, 79, 120, 0.28);
+  color: var(--club-blue);
+  display: flex;
+  font-family: var(--font-display);
+  font-size: 0.62rem;
+  font-weight: 800;
+  justify-content: center;
+  line-height: 1.05;
+  min-height: 2rem;
+  padding: 0.25rem;
+  text-align: center;
+}
+
+.training-board__status li:nth-child(1) {
+  animation-name: tactical-phase-one;
+}
+
+.training-board__status li:nth-child(2) {
+  animation-name: tactical-phase-two;
+}
+
+.training-board__status li:nth-child(3) {
+  animation-name: tactical-phase-three;
+}
+
+.training-board__status li:nth-child(4) {
+  animation-name: tactical-phase-four;
+}
+
+.training-board.is-running .pitch-line--draw,
+.training-board.is-running .free-space,
+.training-board.is-running .route,
+.training-board.is-running .team-link,
+.training-board.is-running .tactical-player,
+.training-board.is-running .tactical-player::before,
+.training-board.is-running .tactical-ball,
+.training-board.is-running .training-board__status li {
+  animation-play-state: running;
+}
+
+@keyframes tactical-line-draw {
+  0% {
+    opacity: 0;
+    stroke-dashoffset: 1;
+  }
+
+  12%,
+  100% {
+    opacity: 0.74;
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes tactical-free-space {
+  0%,
+  51% {
+    opacity: 0;
+  }
+
+  58%,
+  100% {
+    opacity: 0.42;
+  }
+}
+
+@keyframes tactical-pass-one {
+  0%,
+  27% {
+    opacity: 0;
+    stroke-dashoffset: 1;
+  }
+
+  45%,
+  100% {
+    opacity: 0.84;
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes tactical-run-three {
+  0%,
+  53% {
+    opacity: 0;
+    stroke-dashoffset: 1;
+  }
+
+  72%,
+  100% {
+    opacity: 0.72;
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes tactical-pass-two {
+  0%,
+  64% {
+    opacity: 0;
+    stroke-dashoffset: 1;
+  }
+
+  80%,
+  100% {
+    opacity: 0.84;
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes tactical-team-link {
+  0%,
+  80% {
+    opacity: 0;
+    stroke-dashoffset: 1;
+  }
+
+  88%,
+  100% {
+    opacity: 0.68;
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes tactical-player-one {
+  0%,
+  12% {
+    left: 20%;
+    opacity: 0;
+    top: 64%;
+    transform: translate(-50%, -50%) scale(0.92);
+  }
+
+  19%,
+  68% {
+    left: 20%;
+    opacity: 1;
+    top: 64%;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  82%,
+  100% {
+    left: 23%;
+    opacity: 1;
+    top: 62%;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes tactical-player-two {
+  0%,
+  12% {
+    left: 42%;
+    opacity: 0;
+    top: 51%;
+    transform: translate(-50%, -50%) scale(0.92);
+  }
+
+  19%,
+  43% {
+    left: 42%;
+    opacity: 1;
+    top: 51%;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  48% {
+    left: 42%;
+    opacity: 1;
+    top: 51%;
+    transform: translate(-50%, -50%) scale(1.08);
+  }
+
+  54%,
+  75% {
+    left: 42%;
+    opacity: 1;
+    top: 51%;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  86%,
+  100% {
+    left: 44%;
+    opacity: 1;
+    top: 55%;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes tactical-player-three {
+  0%,
+  12% {
+    left: 61%;
+    opacity: 0;
+    top: 64%;
+    transform: translate(-50%, -50%) scale(0.92);
+  }
+
+  19%,
+  54% {
+    left: 61%;
+    opacity: 1;
+    top: 64%;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  74%,
+  100% {
+    left: 73%;
+    opacity: 1;
+    top: 47%;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes tactical-player-four {
+  0%,
+  12% {
+    left: 44%;
+    opacity: 0;
+    top: 78%;
+    transform: translate(-50%, -50%) scale(0.92);
+  }
+
+  19%,
+  72% {
+    left: 44%;
+    opacity: 1;
+    top: 78%;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  86%,
+  100% {
+    left: 49%;
+    opacity: 1;
+    top: 76%;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes tactical-ring-watch {
+  0%,
+  21%,
+  39%,
+  100% {
+    opacity: 0;
+    transform: scale(0.72);
+  }
+
+  25%,
+  35% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes tactical-ring-task {
+  0%,
+  60%,
+  79%,
+  100% {
+    opacity: 0;
+    transform: scale(0.72);
+  }
+
+  64%,
+  75% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes tactical-ball {
+  0%,
+  17% {
+    left: 20%;
+    opacity: 0;
+    top: 64%;
+    transform: translate(-50%, -50%) scale(0.9);
+  }
+
+  22%,
+  30% {
+    left: 20%;
+    opacity: 1;
+    top: 64%;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  45%,
+  64% {
+    left: 42%;
+    opacity: 1;
+    top: 51%;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  80%,
+  100% {
+    left: 73%;
+    opacity: 1;
+    top: 47%;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes tactical-phase-one {
+  0%,
+  20% {
+    background: var(--white);
+    border-color: rgba(29, 79, 120, 0.28);
+    color: var(--club-blue);
+    opacity: 0.72;
+  }
+
+  23%,
+  39% {
+    background: var(--ball-yellow);
+    border-color: var(--ball-yellow);
+    color: var(--club-navy);
+    opacity: 1;
+  }
+
+  45%,
+  100% {
+    background: var(--white);
+    border-color: rgba(29, 79, 120, 0.36);
+    color: var(--club-blue);
+    opacity: 0.82;
+  }
+}
+
+@keyframes tactical-phase-two {
+  0%,
+  39% {
+    background: var(--white);
+    border-color: rgba(29, 79, 120, 0.28);
+    color: var(--club-blue);
+    opacity: 0.72;
+  }
+
+  43%,
+  58% {
+    background: var(--ball-yellow);
+    border-color: var(--ball-yellow);
+    color: var(--club-navy);
+    opacity: 1;
+  }
+
+  64%,
+  100% {
+    background: var(--white);
+    border-color: rgba(29, 79, 120, 0.36);
+    color: var(--club-blue);
+    opacity: 0.82;
+  }
+}
+
+@keyframes tactical-phase-three {
+  0%,
+  58% {
+    background: var(--white);
+    border-color: rgba(29, 79, 120, 0.28);
+    color: var(--club-blue);
+    opacity: 0.72;
+  }
+
+  62%,
+  80% {
+    background: var(--ball-yellow);
+    border-color: var(--ball-yellow);
+    color: var(--club-navy);
+    opacity: 1;
+  }
+
+  86%,
+  100% {
+    background: var(--white);
+    border-color: rgba(29, 79, 120, 0.36);
+    color: var(--club-blue);
+    opacity: 0.82;
+  }
+}
+
+@keyframes tactical-phase-four {
+  0%,
+  80% {
+    background: var(--white);
+    border-color: rgba(29, 79, 120, 0.28);
+    color: var(--club-blue);
+    opacity: 0.72;
+  }
+
+  84%,
+  100% {
+    background: var(--ball-yellow);
+    border-color: var(--ball-yellow);
+    color: var(--club-navy);
+    opacity: 1;
+  }
 }
 
 @media (min-width: 900px) {
+  .editorial-grid {
+    gap: clamp(3.5rem, 6.5vw, 6rem);
+    grid-template-columns: minmax(0, 1.22fr) minmax(0, 1fr);
+  }
+
   .training-board {
-    grid-column: 1 / 8;
+    justify-self: start;
+    order: 1;
   }
 
   .editorial-copy {
-    grid-column: 8 / 13;
+    justify-self: start;
+    order: 2;
+  }
+
+  .training-board__label {
+    font-size: 0.78rem;
+    left: var(--space-4);
+    min-height: 2rem;
+    padding-inline: var(--space-3);
+    top: var(--space-4);
+  }
+
+  .tactical-player {
+    font-size: 0.82rem;
+    height: 2.35rem;
+    width: 2.35rem;
+  }
+
+  .tactical-ball {
+    height: 1.12rem;
+    width: 1.12rem;
+  }
+
+  .training-board__status {
+    gap: 0.5rem;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    padding: 0.625rem;
+  }
+
+  .training-board__status li {
+    font-size: 0.68rem;
+    min-height: 2.2rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pitch-line--draw,
+  .free-space,
+  .route,
+  .team-link,
+  .tactical-player,
+  .tactical-player::before,
+  .tactical-ball,
+  .training-board__status li {
+    animation: none !important;
+  }
+
+  .pitch-line--draw {
+    opacity: 0.74;
+    stroke-dashoffset: 0;
+  }
+
+  .free-space {
+    opacity: 0.42;
+  }
+
+  .route {
+    opacity: 0.78;
+    stroke-dashoffset: 0;
+  }
+
+  .team-link {
+    opacity: 0.68;
+    stroke-dashoffset: 0;
+  }
+
+  .tactical-player {
+    opacity: 1;
+  }
+
+  .tactical-player--01 {
+    left: 23%;
+    top: 62%;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  .tactical-player--02 {
+    left: 44%;
+    top: 55%;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  .tactical-player--03 {
+    left: 73%;
+    top: 47%;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  .tactical-player--04 {
+    left: 49%;
+    top: 76%;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  .tactical-ball {
+    left: 73%;
+    opacity: 1;
+    top: 47%;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  .training-board__status li {
+    background: var(--white);
+    border-color: rgba(29, 79, 120, 0.36);
+    color: var(--club-blue);
+    opacity: 0.82;
+  }
+
+  .training-board__status li:nth-child(4) {
+    background: var(--ball-yellow);
+    border-color: var(--ball-yellow);
+    color: var(--club-navy);
+    opacity: 1;
   }
 }
 

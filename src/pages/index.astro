@@ -70,11 +70,79 @@ import { siteCopy } from "../data/site-copy";
         <p class="lead">{siteCopy.home.editorial.text}</p>
         <ActionLink href="/rad-sa-decom/" label={siteCopy.home.editorial.link} variant="text" />
       </div>
-      <div class="training-board" aria-hidden="true">
-        <div class="training-board__note"></div>
+      <div
+        class="training-board"
+        data-tactical-board
+        role="img"
+        aria-label="Stilizovana taktička vežba: četiri igrača prate igru, sarađuju, preuzimaju zadatak i završavaju akciju kao tim."
+      >
+        <div class="training-board__field" aria-hidden="true">
+          <div class="training-board__label">VEŽBA 02 · TIMSKA AKCIJA</div>
+          <svg class="training-board__pitch" viewBox="0 0 720 540" focusable="false">
+            <defs>
+              <marker id="route-arrow-blue" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M0 0 L8 4 L0 8 Z" class="route-arrow route-arrow--blue"></path>
+              </marker>
+              <marker id="route-arrow-yellow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M0 0 L8 4 L0 8 Z" class="route-arrow route-arrow--yellow"></path>
+              </marker>
+            </defs>
+            <rect class="pitch-line pitch-line--draw" x="28" y="34" width="664" height="472" rx="10" pathLength="1"></rect>
+            <line class="pitch-line pitch-line--draw pitch-line--muted" x1="360" y1="34" x2="360" y2="506" pathLength="1"></line>
+            <circle class="pitch-line pitch-line--draw pitch-line--muted" cx="360" cy="270" r="74" pathLength="1"></circle>
+            <rect class="pitch-line pitch-line--draw" x="28" y="174" width="116" height="192" rx="0" pathLength="1"></rect>
+            <rect class="pitch-line pitch-line--draw" x="576" y="174" width="116" height="192" rx="0" pathLength="1"></rect>
+            <rect class="free-space" x="492" y="198" width="124" height="98" rx="6"></rect>
+            <path class="route route-pass-one" d="M144 346 C204 318 246 292 302 276" pathLength="1" marker-end="url(#route-arrow-yellow)"></path>
+            <path class="route route-run-three" d="M440 346 C474 318 500 278 526 254" pathLength="1" marker-end="url(#route-arrow-blue)"></path>
+            <path class="route route-pass-two" d="M302 276 C376 255 452 246 526 254" pathLength="1" marker-end="url(#route-arrow-yellow)"></path>
+            <path class="team-link team-link--one" d="M166 334 L318 296 L526 254 L354 410 Z" pathLength="1"></path>
+            <path class="team-link team-link--two" d="M166 334 L354 410 M318 296 L354 410" pathLength="1"></path>
+          </svg>
+          <span class="tactical-player tactical-player--01"><span>01</span></span>
+          <span class="tactical-player tactical-player--02"><span>02</span></span>
+          <span class="tactical-player tactical-player--03"><span>03</span></span>
+          <span class="tactical-player tactical-player--04"><span>04</span></span>
+          <span class="tactical-ball"></span>
+        </div>
+        <ol class="training-board__status" aria-hidden="true">
+          <li>PRATI IGRU</li>
+          <li>SARAĐUJE</li>
+          <li>PREUZIMA ZADATAK</li>
+          <li>IGRA KAO DEO TIMA</li>
+        </ol>
       </div>
     </div>
   </section>
+
+  <script is:inline>
+    (() => {
+      const boards = document.querySelectorAll("[data-tactical-board]");
+      if (!boards.length) return;
+
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+      if (reduceMotion.matches) {
+        boards.forEach((board) => board.classList.add("is-final"));
+        return;
+      }
+
+      if (!("IntersectionObserver" in window)) {
+        boards.forEach((board) => board.classList.add("is-running"));
+        return;
+      }
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            entry.target.classList.toggle("is-running", entry.isIntersecting);
+          });
+        },
+        { threshold: 0.32, rootMargin: "0px 0px -8% 0px" },
+      );
+
+      boards.forEach((board) => observer.observe(board));
+    })();
+  </script>
 
   <section class="section section--white" aria-labelledby="groups-title">
     <div class="container">
